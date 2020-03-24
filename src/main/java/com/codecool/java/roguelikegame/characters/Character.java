@@ -1,4 +1,4 @@
-package main.java.com.codecool.java.roguelikegame.characters;
+package com.codecool.java.roguelikegame.characters;
 
 public abstract class Character {
 
@@ -27,19 +27,19 @@ public abstract class Character {
         this.agility += agility;
     }
 
-    public void subtrackStrength(int strength) {
+    public void substraktStrength(int strength) {
         this.strength -= strength;
     }
 
-    public void subtrackDefence(int defence) {
+    public void substraktDefence(int defence) {
         this.defence -= defence;
     }
 
-    public void subtrackHp(int hp) {
+    public void substraktHp(int hp) {
         this.hp -= hp;
     }
 
-    public void subtrackAgility(int agility) {
+    public void substraktAgility(int agility) {
         this.agility -= agility;
     }
 

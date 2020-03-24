@@ -1,4 +1,4 @@
-package main.java.com.codecool.java.roguelikegame.characters;
+package com.codecool.java.roguelikegame.characters;
 
 public enum IconColor {
     GREEN("greencolor"),
