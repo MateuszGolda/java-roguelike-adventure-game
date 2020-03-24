@@ -1,4 +1,4 @@
-package com.codecool.java.roguelikegame.characters;
+package com.codecool.java.roguelikegame.beings;
 
 public class Icon {
 
@@ -6,7 +6,6 @@ public class Icon {
     private IconColor white;
     private int playerLevel;
     private String itemCharacter;
-
 
     public Icon() { // constructor for monster
         this.color = IconColor.RED;

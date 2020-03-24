@@ -8,6 +8,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Game.game();
+        Stage1 stage1 = new Stage1();
+        stage1.name();
     }
 }

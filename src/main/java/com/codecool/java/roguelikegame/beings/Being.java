@@ -1,14 +1,13 @@
-package com.codecool.java.roguelikegame.characters;
+package com.codecool.java.roguelikegame.beings;
 
-public abstract class Character {
+public abstract class Being {
 
     protected int strength;
     protected int defence;
     protected int hp;
     protected int agility;
-    protected int[] coordinates;
-    private final int yIndex = 0;
-    private final int xIndex = 1;
+    protected int yPosition;
+    protected int xPosition;
     protected Icon icon;
 
     public void addStrength(int strength) {
@@ -47,32 +46,9 @@ public abstract class Character {
         this.icon = icon;
     }
 
-    public void moveUp() {
-        if (notConflict()) {    
-            coordinates[yIndex] += 1;
-        }
-    }
-
-    public void moveDown() {
-        if (notConflict()) {
-            coordinates[yIndex] -= 1;
-        }        
-    }
-
-    public void moveLeft() {
-        if (notConflict()) {
-            coordinates[xIndex] -= 1;
-        }
-    }
-
-    public void moveRight() {
-        if (notConflict()) {
-            coordinates[xIndex] += 1;
-        }
-    }
-
-    private boolean notConflict() {
-        return true;
+    public void move(int y, int x) {
+        yPosition = y;
+        xPosition = x;
     }
 
     public int getStrength() {
@@ -91,8 +67,18 @@ public abstract class Character {
         return agility;
     }
 
-    public int[] getCoordinates() {
-        return coordinates;
+    /**
+     * @return the yPosition
+     */
+    public int getyPosition() {
+        return yPosition;
+    }
+
+    /**
+     * @return the xPosition
+     */
+    public int getxPosition() {
+        return xPosition;
     }
 
     public Icon getIcon() {
