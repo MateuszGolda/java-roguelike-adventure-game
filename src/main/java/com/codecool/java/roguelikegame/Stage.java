@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.codecool.java.roguelikegame.board.Board;
+import com.codecool.java.roguelikegame.board.Inventory;
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Item;
 
@@ -17,6 +18,7 @@ public abstract class Stage {
     protected Being player;
     protected Set<Being> enemies = new HashSet<>();
     protected Set<Item> items = new HashSet<>();
+    protected Inventory inventory = new Inventory();
     protected Set<String> walkingChars = new HashSet<>();
     protected boolean isRunning;
 
