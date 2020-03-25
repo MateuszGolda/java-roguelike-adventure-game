@@ -5,7 +5,7 @@ public class Item extends Being {
     private ItemTypes type;
     private Icon icon;
 
-    public Item(ItemTypes type) {
+    public Item(ItemTypes type, int yPosition, int xPosition) {
         this.type = type;
         Icon newIcon = new Icon(type);
         this.icon = newIcon;
@@ -23,6 +23,8 @@ public class Item extends Being {
                 super.defence = 5;
                 break;
         }
+        super.yPosition = yPosition;
+        super.xPosition = xPosition;
     }
 
     public Being usePotion(Being player) {
