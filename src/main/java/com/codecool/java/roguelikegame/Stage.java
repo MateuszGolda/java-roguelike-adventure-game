@@ -16,44 +16,62 @@ public abstract class Stage {
     protected Board board;
     protected Being player;
     protected Set<String> walkingChars = new HashSet<String>();
+    protected boolean isRunning;
 
-    public Stage(Board board, Player player) {
+    public Stage(Being player) {
+        isRunning = true;
         walkingChars.add(" ");
         walkingChars.add("≣");
-        this.board = board;
         this.player = player;
     }
 
-    public void gameLoop() throws FileNotFoundException {
+    protected abstract void setBoard();
 
+    public void gameLoop() throws FileNotFoundException {
+        setBoard();
         board.printBoard();
-        String[][] item = player.getIcon();
-        board.printOnBoard(item, player.getyPosition(), player.getxPosition());
+        board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
 
         int c;
-        while (true) {
-            UI.moveCursor(board.getBoard().length, 0); // move under the board to avoid printing input on the board border
+        while (isRunning) {
+            UI.moveCursor(board.getBoard().length, 0); // to avoid printing input on the board border
             c = Character.toLowerCase(CharacterInput.getNoEnterInput());
 
-            if (c == 'a' && notConflict(0, -1)) {
-                printAndCleanOldPosition(item, 0, -1);
-                player.move(player.getyPosition(), player.getxPosition() - 1);
+            switch (c) {
+                case 'a':
+                    moveIfNotConflict(0, -1);
+                    break;
+
+                case 'w':
+                    moveIfNotConflict(-1, 0);
+                    break;
+
+                case 's':
+                    moveIfNotConflict(1, 0);
+                    break;
+
+                case 'd':
+                    moveIfNotConflict(0, 1);
+                    break;
+
+                case 'i':
+                    System.out.println("Inventory is not yet implemented");
+                    break;
+
+                case 'q':
+                    isRunning = false;
+                    break;
+
+                default:
+                    break;
             }
-            if (c == 'w' && notConflict(-1, 0)) {
-                printAndCleanOldPosition(item, -1, 0);
-                player.move(player.getyPosition() - 1, player.getxPosition());
-            }
-            if (c == 's' && notConflict(1, 0)) {
-                printAndCleanOldPosition(item, 1, 0);
-                player.move(player.getyPosition() + 1, player.getxPosition());
-            }
-            if (c == 'd' && notConflict(0, 1)) {
-                printAndCleanOldPosition(item, 0, 1);
-                player.move(player.getyPosition(), player.getxPosition() + 1);
-            }
-            if (c == 'q') {
-                break;
-            }
+        }
+    }
+
+    protected void moveIfNotConflict(int yChange, int xChange) {
+        if (notConflict(yChange, xChange)) {
+            printAndCleanOldPosition(yChange, xChange);
+            player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
         }
     }
 
@@ -64,9 +82,9 @@ public abstract class Stage {
         return false;
     }
 
-    protected void printAndCleanOldPosition(String[][] item, int yChange, int xChange) {
+    protected void printAndCleanOldPosition(int yChange, int xChange) {
         String[][] old = { { board.getBoard()[player.getyPosition()][player.getxPosition()] } };
         board.printOnBoard(old, player.getyPosition(), player.getxPosition());
-        board.printOnBoard(item, player.getyPosition() + yChange, player.getxPosition() + xChange);
+        board.printOnBoard(player.getIcon(), player.getyPosition() + yChange, player.getxPosition() + xChange);
     }
 }
