@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.codecool.java.roguelikegame.board.Board;
 import com.codecool.java.roguelikegame.beings.Being;
+import com.codecool.java.roguelikegame.beings.Item;
 
 /**
  * Stage1
@@ -14,7 +15,9 @@ public abstract class Stage {
 
     protected Board board;
     protected Being player;
-    protected Set<String> walkingChars = new HashSet<String>();
+    protected Set<Being> enemies = new HashSet<>();
+    protected Set<Item> items = new HashSet<>();
+    protected Set<String> walkingChars = new HashSet<>();
     protected boolean isRunning;
 
     public Stage(Being player) {
@@ -26,11 +29,17 @@ public abstract class Stage {
 
     protected abstract void setBoard();
 
+    protected abstract void addEnemies();
+
+    protected abstract void addItems();
+
     public void gameLoop() throws FileNotFoundException {
         setBoard();
         board.printBoard();
         board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
-
+        for (Being being : enemies) {
+            board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
+        }
         int c;
         while (isRunning) {
             UI.moveCursor(board.getBoard().length, 0); // to avoid printing input on the board border
