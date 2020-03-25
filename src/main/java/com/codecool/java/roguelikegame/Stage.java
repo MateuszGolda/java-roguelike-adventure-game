@@ -83,8 +83,7 @@ public abstract class Stage {
     }
 
     protected void printAndCleanOldPosition(int yChange, int xChange) {
-        String[][] old = { { board.getBoard()[player.getyPosition()][player.getxPosition()] } };
-        board.printOnBoard(old, player.getyPosition(), player.getxPosition());
+        board.clearBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
         board.printOnBoard(player.getIcon(), player.getyPosition() + yChange, player.getxPosition() + xChange);
     }
 }
