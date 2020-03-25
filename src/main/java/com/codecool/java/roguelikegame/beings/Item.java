@@ -1,14 +1,11 @@
-package com.codecool.java.roguelikegame.inventory;
-
-import com.codecool.java.roguelikegame.beings.Being;
-import com.codecool.java.roguelikegame.beings.Icon;
+package com.codecool.java.roguelikegame.beings;
 
 public class Item extends Being {
 
     private ItemTypes type;
     private Icon icon;
 
-    public Item(ItemTypes type) {
+    public Item(ItemTypes type, int yPosition, int xPosition) {
         this.type = type;
         Icon newIcon = new Icon(type);
         this.icon = newIcon;
@@ -26,6 +23,8 @@ public class Item extends Being {
                 super.defence = 5;
                 break;
         }
+        super.yPosition = yPosition;
+        super.xPosition = xPosition;
     }
 
     public Being usePotion(Being player) {
