@@ -20,7 +20,7 @@ public class Icon {
             case HP:
                 color = IconColor.GREEN;
                 break;
-            case SWORD:
+            case STRENGTH:
                 color = IconColor.RED;
                 break;
             case AGILITY:
@@ -33,7 +33,7 @@ public class Icon {
     }
 
     public String[][] getPlayerIcon() {
-        if (playerLevel == 2) {
+        if (playerLevel == 0) {
             String[][] icon = {{String.format("%s@%s", color.iconColor(), reset.iconColor())}};
             return icon;
         } else if (playerLevel == 1) {
@@ -58,22 +58,14 @@ public class Icon {
 
 
 
-    public String[][] getItemIcon(ItemTypes type) {
-        switch (type) {
-            case SWORD:
-                String[][] swordFormat = {{color.iconColor(), "-", "-", "|", ">", ">", ">", ">", reset.iconColor()}};
-                return swordFormat;
-            default:
-                String[][] potionFormat = {{" ", "_", "{", "}", "_", " "},          //  _{}_
-                        {"|", String.format("%s≋", color.iconColor()),              // |≋≋≋≋|
-                        "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},    // |≋≋≋≋|
-                        {"|", String.format("%s≋", color.iconColor()),              // ``````
-                        "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},
-                        {"`", "`", "`", "`", "`", "`"}};
-                return potionFormat;
+    public String[][] getItemIcon() {
 
-        }
-      
+        String[][] potionFormat = {{" ", "_", "{", "}", "_", " "},          //  _{}_
+                {"|", String.format("%s≋", color.iconColor()),              // |≋≋≋≋|
+                "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},    // |≋≋≋≋|
+                {"|", String.format("%s≋", color.iconColor()),              // ``````
+                "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},
+                {"`", "`", "`", "`", "`", "`"}};
+        return potionFormat;
     }
-
 }
