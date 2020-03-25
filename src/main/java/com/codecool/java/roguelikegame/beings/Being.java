@@ -26,24 +26,20 @@ public abstract class Being {
         this.agility += agility;
     }
 
-    public void substraktStrength(int strength) {
+    public void subtractStrength(int strength) {
         this.strength -= strength;
     }
 
-    public void substraktDefence(int defence) {
+    public void subtractDefence(int defence) {
         this.defence -= defence;
     }
 
-    public void substraktHp(int hp) {
+    public void subtractHp(int hp) {
         this.hp -= hp;
     }
 
-    public void substraktAgility(int agility) {
+    public void subtractAgility(int agility) {
         this.agility -= agility;
-    }
-
-    public void changeIcon(Icon icon) {
-        this.icon = icon;
     }
 
     public void move(int y, int x) {
@@ -84,4 +80,5 @@ public abstract class Being {
     public Icon getIcon() {
         return icon;
     }
+
 }

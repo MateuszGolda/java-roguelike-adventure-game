@@ -16,9 +16,15 @@ public class Player extends Being {
         super.icon = icon;
     }
 
-    public void changeLevelUp() {
-        level++;
-        Icon newIcon = new Icon(level);
+    public void levelUp() {
+        super.strength += super.strength;
+        super.defence += super.defence;
+        super.hp += super.hp;
+        super.agility += (int) super.agility/4;
+        super.yPosition = 3;
+        super.xPosition = 3;
+        Icon newIcon = new Icon(this.level++);
         super.icon = newIcon;
     }
+
 }

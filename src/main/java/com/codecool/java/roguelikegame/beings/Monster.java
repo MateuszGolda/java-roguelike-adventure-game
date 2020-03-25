@@ -2,8 +2,6 @@ package com.codecool.java.roguelikegame.beings;
 
 public class Monster extends Being {
 
-    private boolean alive;
-
     public Monster(int strength, int defence, int hp, int agility, int yPosition, int xPosition) {
         super.strength = strength;
         super.defence = defence;
@@ -13,11 +11,14 @@ public class Monster extends Being {
         super.xPosition = xPosition;
         Icon monsterIcon = new Icon();
         super.icon = monsterIcon;
-        this.alive = true;
     }
 
     public boolean isAlive() {
-        return alive;
+        if (super.hp > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

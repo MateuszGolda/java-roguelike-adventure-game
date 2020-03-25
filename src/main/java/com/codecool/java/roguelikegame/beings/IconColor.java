@@ -1,11 +1,11 @@
 package com.codecool.java.roguelikegame.beings;
 
 public enum IconColor {
-    GREEN("greencolor"),
-    YELLOW("yellowcolor"),
-    RED("redcolor"),
-    BLUE("bluecolor"),
-    WHITE("withoutcolor"); // as default
+    GREEN("\u001B[32m"),
+    YELLOW("\u001B[33m"),
+    RED("\u001B[31m"),
+    BLUE("\u001B[34m"),
+    RESET("\u001B[0m"); // as default
 
 
     private String colorChanger;
