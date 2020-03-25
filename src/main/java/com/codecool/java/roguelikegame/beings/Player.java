@@ -4,11 +4,11 @@ public class Player extends Being {
 
     private int level;
 
-    public Player(int strength, int defence, int hp, int agility, int yPosition, int xPosition) {
-        super.strength = strength;
-        super.defence = defence;
-        super.hp = hp;
-        super.agility = agility;
+    public Player(int yPosition, int xPosition) {
+        super.strength = 5;
+        super.defence = 5;
+        super.hp = 50;
+        super.agility = 5;
         super.yPosition = yPosition;
         super.xPosition = xPosition;
         this.level = 0;
