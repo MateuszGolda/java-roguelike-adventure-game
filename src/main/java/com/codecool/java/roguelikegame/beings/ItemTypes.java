@@ -1,5 +1,4 @@
-package com.codecool.java.roguelikegame.inventory;
-
+package com.codecool.java.roguelikegame.beings;
 
 public enum ItemTypes {
     HP,

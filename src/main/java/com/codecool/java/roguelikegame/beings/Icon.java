@@ -1,7 +1,5 @@
 package com.codecool.java.roguelikegame.beings;
 
-import com.codecool.java.roguelikegame.inventory.ItemTypes;
-
 public class Icon {
 
     private IconColor color;
