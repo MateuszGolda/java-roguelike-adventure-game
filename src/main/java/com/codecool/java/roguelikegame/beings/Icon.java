@@ -31,11 +31,8 @@ public class Icon {
         return icon;
     }
 
-    public String getMonsterIcon() {
-        String playerIcon = "";
-        if (playerLevel >= 0) {
-            playerIcon = color.iconColor() + "%" + reset.iconColor();
-        }
+    public String[][] getMonsterIcon() {
+        String[][] playerIcon = {{color.iconColor() + "M" + reset.iconColor()}};
         return playerIcon;
     }
 
