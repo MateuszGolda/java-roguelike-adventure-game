@@ -27,6 +27,6 @@ public class Stage1 extends Stage {
 
     @Override
     protected void addItems() {
-        items.add(new Item(ItemTypes.HP));
+        items.add(new Item(ItemTypes.HP, 8, 30));
     }
 }
