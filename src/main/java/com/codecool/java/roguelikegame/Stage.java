@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.codecool.java.roguelikegame.board.Board;
 import com.codecool.java.roguelikegame.beings.Being;
-import com.codecool.java.roguelikegame.beings.Player;
 
 /**
  * Stage1
@@ -76,15 +75,19 @@ public abstract class Stage {
     }
 
     protected boolean notConflict(int yChange, int xChange) {
-        if (walkingChars.contains(board.getBoard()[player.getyPosition() + yChange][player.getxPosition() + xChange])) {
-            return true;
+        for (int y = 0; y < player.getIcon().length; y++) {
+            for (int x = 0; x < player.getIcon()[y].length; x++) {
+                if (!walkingChars.contains(
+                        board.getBoard()[player.getyPosition() + yChange + y][player.getxPosition() + xChange + x])) {
+                    return false;
+                }
+            }
         }
-        return false;
+        return true;
     }
 
     protected void printAndCleanOldPosition(int yChange, int xChange) {
-        String[][] old = { { board.getBoard()[player.getyPosition()][player.getxPosition()] } };
-        board.printOnBoard(old, player.getyPosition(), player.getxPosition());
+        board.clearBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
         board.printOnBoard(player.getIcon(), player.getyPosition() + yChange, player.getxPosition() + xChange);
     }
 }

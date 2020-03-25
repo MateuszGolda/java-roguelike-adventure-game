@@ -45,7 +45,21 @@ public class Board {
         for (int i = 0; i < item.length; i++) {
             for (int j = 0; j < item[i].length; j++) {
                 UI.moveCursor(y + i, x + j);
-                System.out.print(item[i][j]);
+                if (!item[i][j].equals(" ")) {
+                    System.out.print(item[i][j]);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void clearBoard(String[][] item, int y, int x) {
+        for (int i = 0; i < item.length; i++) {
+            for (int j = 0; j < item[i].length; j++) {
+                UI.moveCursor(y + i, x + j);
+                if (!item[i][j].equals(" ")) {
+                    System.out.print(board[y + i][x + j]);
+                }
             }
             System.out.println();
         }
