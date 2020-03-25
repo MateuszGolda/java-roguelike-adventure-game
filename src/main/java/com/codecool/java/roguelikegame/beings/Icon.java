@@ -5,7 +5,6 @@ public class Icon {
     private IconColor color;
     private IconColor reset = IconColor.RESET;
     private int playerLevel;
-    private String itemCharacter;
 
     public Icon() { // constructor for monster
         this.color = IconColor.RED;
@@ -16,28 +15,65 @@ public class Icon {
         this.playerLevel = level;
     }
 
-    public Icon(String itemCharacter) {
-        this.color = IconColor.BLUE;
-        this.itemCharacter = itemCharacter;
+    public Icon(ItemTypes type) {
+        switch (type) {
+            case HP:
+                color = IconColor.GREEN;
+                break;
+            case SWORD:
+                color = IconColor.RED;
+                break;
+            case AGILITY:
+                color = IconColor.BLUE;
+                break;
+            case DEFENCE:
+                color = IconColor.YELLOW;
+                break;
+        }
     }
 
     public String[][] getPlayerIcon() {
-        String[][] icon = {{color.iconColor() + "@" + reset.iconColor()},
-                {color.iconColor() + "@" + reset.iconColor(),
-                color.iconColor() + "@" + reset.iconColor(),},
-                {color.iconColor() + "@" + reset.iconColor(),
-                color.iconColor() + "@" + reset.iconColor(),
-                color.iconColor() + "@" + reset.iconColor()}};
-        return icon;
+        if (playerLevel == 2) {
+            String[][] icon = {{String.format("%s@%s", color.iconColor(), reset.iconColor())}};
+            return icon;
+        } else if (playerLevel == 1) {
+            String[][] icon = {{color.iconColor(), "@", " "}, {"/", "|", "\\"}, {"/", " ", "\\", reset.iconColor()}};
+            return icon;
+        } else {
+            String[][] icon = {{color.iconColor(), " ", " ", " ", "_", "_", " ", " ", " ", " ", },    //     __
+                    {" ", " ", "_", "(", "-", "-", ")", "_", " ", " ", },                             //   _(--)_
+                    {" ", "/", "/", "[", "]", "[", "]", "\\", "\\", " ", },                           //  //[][]\\
+                    {"/", "/", " ", "[", "]", "[", "]", " ", "\\", "\\", },                           // // [][] \\
+                    {" ", " ", " ", "/", "/", "\\", "\\", " ", " ", " ", },                           //    //\\  
+                    {" ", "=", "=", "=", " ", " ", "=", "=", "=", " ", reset.iconColor()},};          //  ===  ===
+            return icon;
+        }
     }
 
     public String[][] getMonsterIcon() {
-        String[][] playerIcon = {{color.iconColor() + "M" + reset.iconColor()}};
-        return playerIcon;
+        String[][] monsterIcon = {{color.iconColor(), "_", "\\", "(", "|", ")", "/", "_"},
+                {" ", " ", "/", "(", "0", ")", "\\", " ", reset.iconColor()}};
+        return monsterIcon;
     }
 
-    public String getItemIcon() {
-        return color.iconColor() + itemCharacter + reset.iconColor();
+
+
+    public String[][] getItemIcon(ItemTypes type) {
+        switch (type) {
+            case SWORD:
+                String[][] swordFormat = {{color.iconColor(), "-", "-", "|", ">", ">", ">", ">", reset.iconColor()}};
+                return swordFormat;
+            default:
+                String[][] potionFormat = {{" ", "_", "{", "}", "_", " "},          //  _{}_
+                        {"|", String.format("%s≋", color.iconColor()),              // |≋≋≋≋|
+                        "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},    // |≋≋≋≋|
+                        {"|", String.format("%s≋", color.iconColor()),              // ``````
+                        "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},
+                        {"`", "`", "`", "`", "`", "`"}};
+                return potionFormat;
+
+        }
+      
     }
 
 }
