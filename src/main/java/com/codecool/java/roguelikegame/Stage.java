@@ -37,6 +37,12 @@ public abstract class Stage {
         setBoard();
         board.printBoard();
         board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
+
+        addEnemies();
+        addItems();
+        for (Being item : items) {
+            board.printOnBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
+        }
         for (Being being : enemies) {
             board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
         }
