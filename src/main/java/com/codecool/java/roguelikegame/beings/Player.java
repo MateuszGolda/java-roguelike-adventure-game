@@ -27,4 +27,8 @@ public class Player extends Being {
         super.icon = newIcon;
     }
 
+    @Override
+    public String[][] getIcon() {
+        return super.icon.getPlayerIcon();
+    }
 }

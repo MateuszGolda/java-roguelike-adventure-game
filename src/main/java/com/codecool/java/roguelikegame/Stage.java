@@ -27,7 +27,7 @@ public abstract class Stage {
     public void gameLoop() throws FileNotFoundException {
 
         board.printBoard();
-        String[][] item = { { "@" } };
+        String[][] item = player.getIcon();
         board.printOnBoard(item, player.getyPosition(), player.getxPosition());
 
         int c;

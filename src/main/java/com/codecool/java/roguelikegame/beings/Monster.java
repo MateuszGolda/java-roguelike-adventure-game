@@ -21,4 +21,8 @@ public class Monster extends Being {
         }
     }
 
+    @Override
+    public String[][] getIcon() {
+        return super.icon.getMonsterIcon();
+    }
 }

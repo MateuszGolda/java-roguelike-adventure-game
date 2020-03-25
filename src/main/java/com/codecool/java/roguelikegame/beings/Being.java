@@ -77,8 +77,6 @@ public abstract class Being {
         return xPosition;
     }
 
-    public Icon getIcon() {
-        return icon;
-    }
+    public abstract String[][] getIcon();
 
 }
