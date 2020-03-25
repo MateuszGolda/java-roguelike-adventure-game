@@ -1,4 +1,7 @@
-package com.codecool.java.roguelikegame.beings;
+package com.codecool.java.roguelikegame.inventory;
+
+import com.codecool.java.roguelikegame.beings.Being;
+import com.codecool.java.roguelikegame.beings.Icon;
 
 public class Item extends Being {
 
