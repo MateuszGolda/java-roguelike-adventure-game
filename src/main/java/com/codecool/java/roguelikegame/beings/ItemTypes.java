@@ -4,5 +4,5 @@ public enum ItemTypes {
     HP,
     AGILITY,
     DEFENCE,
-    SWORD;
+    STRENGTH;
 }

@@ -13,7 +13,7 @@ public class Item extends Being {
             case HP:
                 super.hp = 5;
                 break;
-            case SWORD:
+            case STRENGTH:
                 super.strength = 5;
                 break;
             case AGILITY:
@@ -32,7 +32,7 @@ public class Item extends Being {
             case HP:
                 player.addHp(super.hp);
                 break;
-            case SWORD:
+            case STRENGTH:
                 player.addStrength(super.strength);
                 break;
             case AGILITY:
@@ -46,8 +46,6 @@ public class Item extends Being {
     }
 
     public String[][] getIcon() {
-        return icon.getItemIcon(type);
+        return icon.getItemIcon();
     }
-
-
 }
