@@ -5,14 +5,15 @@ import com.codecool.java.roguelikegame.beings.Item;
 import com.codecool.java.roguelikegame.beings.ItemTypes;
 import com.codecool.java.roguelikegame.beings.Monster;
 import com.codecool.java.roguelikegame.board.Board;
+import com.codecool.java.roguelikegame.board.Inventory;
 
 /**
  * Stage1
  */
 public class Stage1 extends Stage {
 
-    Stage1(Being player) {
-        super(player);
+    Stage1(Being player, Inventory inventory) {
+        super(player, inventory);
     }
 
     @Override
