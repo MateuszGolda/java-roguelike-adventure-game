@@ -1,14 +1,15 @@
 package com.codecool.java.roguelikegame.board;
 
+import java.util.Scanner;
+
+import com.codecool.java.roguelikegame.CharacterInput;
 import com.codecool.java.roguelikegame.UI;
 import com.codecool.java.roguelikegame.beings.IconColor;
 import com.codecool.java.roguelikegame.beings.Item;
 import com.codecool.java.roguelikegame.beings.ItemTypes;
-import java.util.Scanner;
 
 public class StartScreen {
 
-    Scanner userInput = new Scanner(System.in);
     Board board;
     int makerIndex;
     final int OPTIONS_HIGHT = 15;
@@ -20,36 +21,47 @@ public class StartScreen {
         makerIndex = 0;
     }
 
-    public int displayStartScreen() {
-        while (true) {    
+    public int displayStartScreen() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
             board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/start.txt");
             board.printBoard();
             printPotions();
             printOptions();
             printActions();
-            printArrow();
-            UI.moveCursor(40, 0);
-            switch (userInput.next()) {
-                case "w":
-                    if (makerIndex > 0) {
-                        makerIndex--;
-                    }
-                    break;
-                case "s":
-                    if (makerIndex < 3) {
-                        makerIndex++;
-                    }
-                    break;
-                case "c":
-                    if (makerIndex == 1) {
-                        printBoardFrom("src/main/java/com/codecool/java/roguelikegame/board/boards/instruction.txt");
-                    } else if (makerIndex == 2) {
-                        printBoardFrom("src/main/java/com/codecool/java/roguelikegame/board/boards/credits.txt");
-                    } else {
-                        return makerIndex;
-                    }
-                    userInput.next();
-                    break;
+            boolean printedMenu = true;
+            while (printedMenu) {
+                printArrow();
+                UI.moveCursor(40, 0);
+                Thread.sleep(500);
+                switch (CharacterInput.getNoEnterInput()) {
+                    case 'w':
+                        if (makerIndex > 0) {
+                            clearArrow();
+                            makerIndex--;
+                        }
+                        break;
+                    case 's':
+                        if (makerIndex < 3) {
+                            clearArrow();
+                            makerIndex++;
+                        }
+                        break;
+                    case 'c':
+                        if (makerIndex == 1) {
+                            printBoardFrom(
+                                    "src/main/java/com/codecool/java/roguelikegame/board/boards/instruction.txt");
+                            scanner.nextLine();
+                            printedMenu = false;
+                        } else if (makerIndex == 2) {
+                            printBoardFrom("src/main/java/com/codecool/java/roguelikegame/board/boards/credits.txt");
+                            scanner.nextLine();
+                            printedMenu = false;
+                        } else {
+                            return makerIndex;
+                        }
+                        break;
+                }
             }
         }
     }
@@ -104,8 +116,13 @@ public class StartScreen {
     }
 
     private void printArrow() {
-        String[][] arrow = {{IconColor.RED.iconColor(), ">>>>>", IconColor.RESET.iconColor()}};
+        String[][] arrow = { { IconColor.RED.iconColor(), ">>>>>", IconColor.RESET.iconColor() } };
         board.printOnBoard(arrow, OPTIONS_HIGHT + 3 * makerIndex, OPTIONS_SHIFT - 7);
+    }
+
+    private void clearArrow() {
+        String[][] arro = { { "", "", "", "", "", "" } };
+        board.clearBoard(arro, OPTIONS_HIGHT + 3 * (makerIndex), OPTIONS_SHIFT - 6);
     }
 
     private void printBoardFrom(String fileName) {
