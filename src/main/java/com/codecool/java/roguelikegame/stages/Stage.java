@@ -1,4 +1,4 @@
-package com.codecool.java.roguelikegame;
+package com.codecool.java.roguelikegame.stages;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.codecool.java.roguelikegame.board.Board;
 import com.codecool.java.roguelikegame.board.Inventory;
+import com.codecool.java.roguelikegame.CharacterInput;
+import com.codecool.java.roguelikegame.UI;
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Item;
 import com.codecool.java.roguelikegame.beings.Point;
@@ -22,9 +24,18 @@ public abstract class Stage {
     protected Set<Item> items = new HashSet<>();
     protected Set<String> walkingChars = new HashSet<>();
     protected boolean isRunning;
+    protected Point nextStageDoor = new Point(0, 0);
+    protected Point secondStageDoor = new Point(0, 0);
+    protected Point previousStageDoor = new Point(0, 0);
+    protected int stageToGo = 0;
+    protected int playerNextStageY;
+    protected int playerNextStageX;
+    protected int playerSecondStageY;
+    protected int playerSecondStageX;
+    protected int playerPreviousStageY;
+    protected int playerPreviousStageX;
 
     public Stage(Being player, Inventory inventory) {
-        isRunning = true;
         walkingChars.add(" ");
         walkingChars.add("≣");
         walkingChars.add("\u2003");
@@ -36,6 +47,10 @@ public abstract class Stage {
 
     protected abstract void addEnemies();
 
+    protected abstract void addDoorToNextStage();
+
+    protected abstract void addPlayerNextStagePosition();
+
     protected abstract void addItems();
 
     protected void addToInventory(Item item) {
@@ -44,10 +59,10 @@ public abstract class Stage {
         board.clearBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
     }
 
-    public void gameLoop() throws FileNotFoundException {
+    public int gameLoop() throws FileNotFoundException {
         initializeStage();
         int c;
-
+        isRunning = true;
         while (isRunning) {
             UI.moveCursor(board.getBoard().length, 0); // to avoid printing input on the board border
             c = Character.toLowerCase(CharacterInput.getNoEnterInput());
@@ -74,6 +89,7 @@ public abstract class Stage {
                     break;
 
                 case 'q':
+                    stageToGo = 4;
                     isRunning = false;
                     break;
 
@@ -81,10 +97,11 @@ public abstract class Stage {
                     break;
             }
         }
+        return stageToGo;
     }
 
     protected void moveIfNotCollision(int yChange, int xChange) {
-        if (isCollisionWithBoard(yChange, xChange)) {
+        if (!isCollisionWithBoard(yChange, xChange)) {
             printAndCleanOldPosition(yChange, xChange);
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
@@ -97,6 +114,33 @@ public abstract class Stage {
                 }
             }
             player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
+            checkIfDoorToNextStage(yChange, xChange);
+        }
+    }
+
+    protected void checkIfDoorToNextStage(int yChange, int xChange) {
+        for (Point point : player.getAllPoints()) {
+            if (point.equals(nextStageDoor)) {
+                isRunning = false;
+                stageToGo = 1;
+                player.setyPosition(playerNextStageY);
+                player.setxPosition(playerNextStageX);
+                break;
+            }
+            if (point.equals(secondStageDoor)) {
+                isRunning = false;
+                stageToGo = 2;
+                player.setyPosition(playerSecondStageY);
+                player.setxPosition(playerSecondStageX);
+                break;
+            }
+            if (point.equals(previousStageDoor)) {
+                isRunning = false;
+                stageToGo = -1;
+                player.setyPosition(playerPreviousStageY);
+                player.setxPosition(playerPreviousStageX);
+                break;
+            }
         }
     }
 
@@ -105,17 +149,15 @@ public abstract class Stage {
             for (int x = 0; x < player.getIcon()[y].length; x++) {
                 if (!walkingChars.contains(
                         board.getBoard()[player.getyPosition() + yChange + y][player.getxPosition() + xChange + x])) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     protected boolean isCollisionWithBeing(int yChange, int xChange, Being object) {
-        Set<Point> pl = player.getAllPoints();
-        Set<Point> ob = object.getAllPoints();
-        if (pl.retainAll(ob)) {
+        if (player.getAllPoints().retainAll(object.getAllPoints())) {
             return false;
         } else {
             return true;
@@ -136,6 +178,8 @@ public abstract class Stage {
         setBoard();
         addEnemies();
         addItems();
+        addDoorToNextStage();
+        addPlayerNextStagePosition();
         printStage();
     }
 
