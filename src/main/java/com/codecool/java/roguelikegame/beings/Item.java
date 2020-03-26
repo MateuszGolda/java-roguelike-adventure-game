@@ -8,6 +8,7 @@ public class Item extends Being {
     public Item(ItemTypes type, int yPosition, int xPosition) {
         this.type = type;
         Icon newIcon = new Icon(type);
+        super.icon = newIcon.getItemIcon();
         this.icon = newIcon.getItemIcon();
         switch (type) {
             case HP:
