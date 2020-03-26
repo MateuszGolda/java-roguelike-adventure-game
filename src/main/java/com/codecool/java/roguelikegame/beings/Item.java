@@ -48,4 +48,8 @@ public class Item extends Being {
     public String[][] getIcon() {
         return icon.getItemIcon();
     }
+
+    public ItemTypes getType() {
+        return type;
+    }
 }
