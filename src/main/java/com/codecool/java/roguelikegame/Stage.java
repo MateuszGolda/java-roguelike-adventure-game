@@ -17,16 +17,17 @@ public abstract class Stage {
 
     protected Board board;
     protected Being player;
+    protected Inventory inventory;
     protected Set<Being> enemies = new HashSet<>();
     protected Set<Item> items = new HashSet<>();
-    protected Inventory inventory = new Inventory();
     protected Set<String> walkingChars = new HashSet<>();
     protected boolean isRunning;
 
-    public Stage(Being player) {
+    public Stage(Being player, Inventory inventory) {
         isRunning = true;
         walkingChars.add(" ");
         walkingChars.add("≣");
+        this.inventory = inventory;
         this.player = player;
     }
 
@@ -35,6 +36,10 @@ public abstract class Stage {
     protected abstract void addEnemies();
 
     protected abstract void addItems();
+
+    protected void addToInventory(Item item) {
+        inventory.addItem(item);
+    }
 
     public void gameLoop() throws FileNotFoundException {
         setBoard();
