@@ -1,6 +1,7 @@
 package com.codecool.java.roguelikegame.board;
 
 import com.codecool.java.roguelikegame.beings.Being;
+import com.codecool.java.roguelikegame.UI;
 import java.util.Scanner;
 
 import java.util.Random;
@@ -13,7 +14,7 @@ public class Battle {
     Being player;
     Inventory inventory;
     Being monster;
-    Board board;
+    Board battleBoard;
     int playerActionPoints;
     int monsterActionPoints;
     final int PLAYER_INDEX = 0;
@@ -31,23 +32,26 @@ public class Battle {
         this.player = player;
         this.inventory = inventory;
         this.monster = monster;
-        this.board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/battle.txt");
+        this.battleBoard = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/battle.txt");
     }
 
     public Being makeBattle() {
-        printBattleBoard();
         while (player.getHp() > 0 && monster.getHp() > 0) {
+            printBattleBoard();
             printStatsOnBoard();
             choseActions();
-            checkIfSleep();
-            addDefence();
-            makeAttack();
-            removeDefence();
-            player.addExp(playerActionPoints);
-            printActionsOnBoard();
-            clearStatsFromBoard();
+            if (actions.charAt(PLAYER_INDEX) !='I') {
+                checkIfSleep();
+                addDefence();
+                makeAttack();
+                removeDefence();
+                player.addExp(playerActionPoints);
+                printActionsOnBoard();
+                clearStatsFromBoard();
+            }
         }
         printBattleResult();
+        UI.clearScreen();
         return player;
     }
 
@@ -63,9 +67,9 @@ public class Battle {
     }
 
     private void printBattleBoard() {
-        board.printBoard();
-        board.printOnBoard(player.getIcon(), ICONS_Y, PLAYER_X);
-        board.printOnBoard(monster.getIcon(), ICONS_Y, MONSTER_X);
+        battleBoard.printBoard();
+        battleBoard.printOnBoard(player.getIcon(), ICONS_Y, PLAYER_X);
+        battleBoard.printOnBoard(monster.getIcon(), ICONS_Y, MONSTER_X);
     }
 
     private void choseActions() {
@@ -74,6 +78,8 @@ public class Battle {
             switch (userInput.next()) {
                 case "i":
                     player = inventory.inventoryScreen(player);
+                    UI.clearScreen();
+                    actions += "I";
                     break;
                 case "a":
                     actions += "A";
@@ -135,14 +141,14 @@ public class Battle {
             if (playerActionPoints < 0) {
                 playerActionPoints = 0;
             }
-            player.subtractHp(playerActionPoints);
+            monster.subtractHp(playerActionPoints);
         }
         if (actions.charAt(MONSTER_INDEX) == 'A') {
             monsterActionPoints = getAttackPoints("monster");
             if (monsterActionPoints < 0) {
                 monsterActionPoints = 0;
             }
-            monster.subtractHp(monsterActionPoints);
+            player.subtractHp(monsterActionPoints);
         }
     }
 
@@ -150,12 +156,18 @@ public class Battle {
         if (name.equals("player")) {
             int number = player.getStrength() * 4 - monster.getDefence();
             number += monster.getAgility();
-            int attack = rand.nextInt(number);
+            int attack = 0;
+            try {
+                attack = rand.nextInt(number);
+            } catch (Exception e) {}
             return attack - monster.getAgility();
         } else {
             int number = monster.getStrength() * 4 - player.getDefence();
             number += player.getAgility();
-            int attack = rand.nextInt(number);
+            int attack = 0;
+            try {
+                attack = rand.nextInt(number);
+            } catch (Exception e) {}
             return attack - player.getAgility();
         }
     }
@@ -192,16 +204,16 @@ public class Battle {
     private void printByName(String name, String actionName, String info) {
         if (name.equals("player")){
             String[][] message = {{actionName}, {" "}, {String.format(info, playerActionPoints)}};
-            board.printOnBoard(message, ACTION_Y, PLAYER_ACTION_X);
+            battleBoard.printOnBoard(message, ACTION_Y, PLAYER_ACTION_X);
         } else {
             String[][] message = {{actionName}, {" "}, {String.format(info, monsterActionPoints)}};
-            board.printOnBoard(message, ACTION_Y, MONSTER_ACTION_X);
+            battleBoard.printOnBoard(message, ACTION_Y, MONSTER_ACTION_X);
         }
     }
 
     private void printStatsOnBoard() {
-        board.printOnBoard(getPlayerStats(), STATISTICS_Y, PLAYER_STATS_X);
-        board.printOnBoard(getMonsterStats(), STATISTICS_Y, PLAYER_STATS_X + 35);
+        battleBoard.printOnBoard(getPlayerStats(), STATISTICS_Y, PLAYER_STATS_X);
+        battleBoard.printOnBoard(getMonsterStats(), STATISTICS_Y, PLAYER_STATS_X + 35);
     }
 
     private String[][] getPlayerStats() {
@@ -226,8 +238,8 @@ public class Battle {
         for (int i = 0; i < cleanerItem.length; i++) {
             cleanerItem[i][0] = cleaner;
         }
-        board.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X);
-        board.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X + 35);
+        battleBoard.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X);
+        battleBoard.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X + 35);
 
     }
 
