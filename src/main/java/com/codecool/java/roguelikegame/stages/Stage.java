@@ -70,19 +70,23 @@ public abstract class Stage {
 
             switch (c) {
                 case 'a':
-                    moveIfNotCollision(0, -1);
+                    movePlayerIfNotCollision(0, -1);
+                    moveEnemies();
                     break;
 
                 case 'w':
-                    moveIfNotCollision(-1, 0);
+                    movePlayerIfNotCollision(-1, 0);
+                    moveEnemies();
                     break;
 
                 case 's':
-                    moveIfNotCollision(1, 0);
+                    movePlayerIfNotCollision(1, 0);
+                    moveEnemies();
                     break;
 
                 case 'd':
-                    moveIfNotCollision(0, 1);
+                    movePlayerIfNotCollision(0, 1);
+                    moveEnemies();
                     break;
 
                 case 'i':
@@ -101,9 +105,9 @@ public abstract class Stage {
         return stageToGo;
     }
 
-    protected void moveIfNotCollision(int yChange, int xChange) {
-        if (!isCollisionWithBoard(yChange, xChange)) {
-            printAndCleanOldPosition(yChange, xChange);
+    protected void movePlayerIfNotCollision(int yChange, int xChange) {
+        if (!isCollisionWithBoard(yChange, xChange, player)) {
+            printAndCleanOldPosition(yChange, xChange, player);
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
                     new Battle(player, inventory, enemy).makeBattle();
@@ -116,6 +120,24 @@ public abstract class Stage {
             }
             player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
             checkIfDoorToNextStage(yChange, xChange);
+        }
+    }
+
+    protected void moveEnemies() {
+        for (Being enemy : enemies) {
+            int yChange = 0;
+            int xChange = 0;
+            int yDistance = Math.abs(enemy.getyPosition() - player.getyPosition());
+            int xDistance = Math.abs(enemy.getxPosition() - player.getxPosition());
+            if (yDistance < 20 && yDistance < xDistance) {
+                yChange = (player.getyPosition() - enemy.getyPosition() < 0) ? -1 : 1;
+            } else if (xDistance < 20) {
+                xChange = (player.getxPosition() - enemy.getxPosition() - enemy.getIcon()[0].length < 0) ? -1 : 1;
+            }
+            if (!isCollisionWithBoard(yChange, xChange, enemy)) {
+                printAndCleanOldPosition(yChange, xChange, enemy);
+                enemy.move(enemy.getyPosition() + yChange, enemy.getxPosition() + xChange);
+            }
         }
     }
 
@@ -145,11 +167,11 @@ public abstract class Stage {
         }
     }
 
-    protected boolean isCollisionWithBoard(int yChange, int xChange) {
-        for (int y = 0; y < player.getIcon().length; y++) {
-            for (int x = 0; x < player.getIcon()[y].length; x++) {
+    protected boolean isCollisionWithBoard(int yChange, int xChange, Being being) {
+        for (int y = 0; y < being.getIcon().length; y++) {
+            for (int x = 0; x < being.getIcon()[y].length; x++) {
                 if (!walkingChars.contains(
-                        board.getBoard()[player.getyPosition() + yChange + y][player.getxPosition() + xChange + x])) {
+                        board.getBoard()[being.getyPosition() + yChange + y][being.getxPosition() + xChange + x])) {
                     return true;
                 }
             }
@@ -165,9 +187,9 @@ public abstract class Stage {
         }
     }
 
-    protected void printAndCleanOldPosition(int yChange, int xChange) {
-        board.clearBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
-        board.printOnBoard(player.getIcon(), player.getyPosition() + yChange, player.getxPosition() + xChange);
+    protected void printAndCleanOldPosition(int yChange, int xChange, Being being) {
+        board.clearBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
+        board.printOnBoard(being.getIcon(), being.getyPosition() + yChange, being.getxPosition() + xChange);
     }
 
     protected void displayInventory() {
