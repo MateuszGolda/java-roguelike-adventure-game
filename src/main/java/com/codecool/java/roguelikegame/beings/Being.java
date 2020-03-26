@@ -12,6 +12,8 @@ public abstract class Being {
     protected int yPosition;
     protected int xPosition;
     protected String[][] icon;
+    protected int exp;
+    protected int level;
 
     public Set<Point> getAllPoints() {
         Set<Point> points = new HashSet<>();
@@ -23,6 +25,25 @@ public abstract class Being {
                 }
         }
         return points;
+    }
+
+    public void addExp(int exp) {
+        this.exp += exp;
+        if (this.exp > 100) {
+            this.exp -= 100;
+            levelUp();
+        }
+    }
+
+    private void levelUp() {
+        this.strength += this.strength;
+        this.defence += this.defence;
+        this.hp += this.hp;
+        this.agility += (int) this.agility / 4;
+        if (level < 2) {
+            level++;
+        }
+        this.icon = new Icon(level).getPlayerIcon();
     }
 
     public void addStrength(int strength) {

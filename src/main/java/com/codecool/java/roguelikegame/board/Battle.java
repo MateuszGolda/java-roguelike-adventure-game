@@ -3,8 +3,6 @@ package com.codecool.java.roguelikegame.board;
 import com.codecool.java.roguelikegame.beings.Being;
 import java.util.Scanner;
 
-import javax.annotation.processing.Generated;
-
 import java.util.Random;
 
 public class Battle {
@@ -33,7 +31,7 @@ public class Battle {
         this.player = player;
         this.inventory = inventory;
         this.monster = monster;
-        this.board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/credits.txt");
+        this.board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/battle.txt");
     }
 
     public Being makeBattle() {
@@ -45,11 +43,23 @@ public class Battle {
             addDefence();
             makeAttack();
             removeDefence();
+            player.addExp(playerActionPoints);
             printActionsOnBoard();
             clearStatsFromBoard();
         }
-
+        printBattleResult();
         return player;
+    }
+
+    private void printBattleResult() {
+        if (player.getHp() > 0) {
+            printResult("src/main/java/com/codecool/java/roguelikegame/board/boards/win.txt");
+        } else {
+            printResult("src/main/java/com/codecool/java/roguelikegame/board/boards/lose.txt");
+        }
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {}
     }
 
     private void printBattleBoard() {
@@ -219,6 +229,11 @@ public class Battle {
         board.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X);
         board.printOnBoard(cleanerItem, STATISTICS_Y, PLAYER_STATS_X + 35);
 
+    }
+
+    private void printResult(String name) {
+        Board resultBoard = new Board(name);
+        resultBoard.printBoard();
     }
 
     
