@@ -1,0 +1,9 @@
+Actions:
+
+a - move left
+
+b - move right
+
+c - chose potion
+
+q - quit

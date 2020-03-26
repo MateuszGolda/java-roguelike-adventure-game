@@ -59,7 +59,6 @@ public class Icon {
 
 
     public String[][] getItemIcon() {
-
         String[][] potionFormat = {{" ", "_", "{", "}", "_", " "},          //  _{}_
                 {"|", String.format("%s≋", color.iconColor()),              // |≋≋≋≋|
                 "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},    // |≋≋≋≋|
@@ -67,5 +66,12 @@ public class Icon {
                 "≋", "≋", String.format("≋%s", reset.iconColor()), "|"},
                 {"`", "`", "`", "`", "`", "`"}};
         return potionFormat;
+    }
+
+    public String[][] getArrowIcon() {
+        String[][] arrow = {{color.iconColor(), " ", "/", "\\", " ", " "},  //   /\
+                {" ", "/", "/", "\\", "\\", " "},                           //  //\\
+                {"/", "/", "/", "\\", "\\", "\\", reset.iconColor()}};                         // ///\\\
+        return arrow;
     }
 }
