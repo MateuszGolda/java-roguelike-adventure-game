@@ -42,7 +42,7 @@ public class Stage1 extends Stage {
     protected void addPlayerNextStagePosition() {
         super.playerNextStageY = 32;
         super.playerNextStageX = 143;
-        super.playerSecondStageY = 3;
-        super.playerSecondStageX = 95;
+        super.playerSecondStageY = 30;
+        super.playerSecondStageX = 3;
     }
 }

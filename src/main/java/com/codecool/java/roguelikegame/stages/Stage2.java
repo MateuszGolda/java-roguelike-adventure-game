@@ -39,7 +39,7 @@ public class Stage2 extends Stage {
 
     @Override
     protected void addPlayerNextStagePosition() {
-        super.playerPreviousStageY = 12;
+        super.playerPreviousStageY = 14;
         super.playerPreviousStageX = 120;
     }
 }
