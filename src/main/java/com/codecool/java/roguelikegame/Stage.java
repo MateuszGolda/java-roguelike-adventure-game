@@ -8,6 +8,7 @@ import com.codecool.java.roguelikegame.board.Board;
 import com.codecool.java.roguelikegame.board.Inventory;
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Item;
+import com.codecool.java.roguelikegame.beings.Point;
 
 /**
  * Stage1
@@ -85,13 +86,18 @@ public abstract class Stage {
     }
 
     protected void moveIfNotConflict(int yChange, int xChange) {
-        if (notConflict(yChange, xChange)) {
+        if (isCollision(yChange, xChange)) {
             printAndCleanOldPosition(yChange, xChange);
+            for (Being enemy : enemies) {
+                if (isCollisionWithBeing(yChange, xChange, enemy)) {
+                    isRunning = false;
+                }
+            }
             player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
         }
     }
 
-    protected boolean notConflict(int yChange, int xChange) {
+    protected boolean isCollision(int yChange, int xChange) {
         for (int y = 0; y < player.getIcon().length; y++) {
             for (int x = 0; x < player.getIcon()[y].length; x++) {
                 if (!walkingChars.contains(
@@ -101,6 +107,16 @@ public abstract class Stage {
             }
         }
         return true;
+    }
+
+    protected boolean isCollisionWithBeing(int yChange, int xChange, Being object) {
+        Set<Point> pl = player.getAllPoints();
+        Set<Point> ob = object.getAllPoints();
+        if (pl.retainAll(ob)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     protected void printAndCleanOldPosition(int yChange, int xChange) {
