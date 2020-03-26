@@ -99,6 +99,14 @@ public abstract class Being {
         return agility;
     }
 
+    public int getExp() {
+        return exp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     /**
      * @return the yPosition
      */
