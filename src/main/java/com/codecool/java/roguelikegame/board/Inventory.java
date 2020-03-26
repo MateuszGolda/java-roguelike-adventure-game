@@ -21,6 +21,8 @@ public class Inventory {
     final int DESCRIPTION_HIGHT = 14;
     final int PRINTING_START = 4;
     final int ACTIONS_HIGHT = 27;
+    final int PLAYER_STATS_Y = 23;
+    final int PLAYER_STATS_X = 125;
 
     public Inventory() {
     }
@@ -28,7 +30,7 @@ public class Inventory {
     public Being inventoryScreen(Being player) {
         boolean isRunning = true;
         while (isRunning) {
-            printBoardWithPotions();
+            printBoardWithPotions(player);
             switch (input.next().toLowerCase()) {
                 case "a":                           // move left
                     if (makerIndex > 0) {
@@ -56,7 +58,7 @@ public class Inventory {
         return player;
     }
 
-    private void printBoardWithPotions() {
+    private void printBoardWithPotions(Being player) {
         UI.clearScreen();
         Board board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/inventory.txt");
         board.printBoard();
@@ -67,6 +69,7 @@ public class Inventory {
         }
         board.printOnBoard(arrowIcon.getArrowIcon(), ARROW_HIGHT, PRINTING_START + COLUMN_WIDTH * makerIndex);
         printPotionDescription(board);
+        printPlayerOnBoard(board, player);
         UI.moveCursor(40, 0);
     }
 
@@ -153,6 +156,16 @@ public class Inventory {
             return player;
         }
 
+    }
+
+    private void printPlayerOnBoard(Board board, Being player) {
+        String[][] playerStatistics = {{"PLAYER:"}, {" "}, {String.format("HP: %d", player.getHp())}, {" "}, 
+                {String.format("STRENGTH: %d", player.getStrength())}, {" "},
+                {String.format("DEFENCE: %d", player.getDefence())}, {" "}, 
+                {String.format("AGILITY: %d", player.getAgility())}, {" "},
+                {String.format("EXP: %d/100", player.getExp())}, {" "},
+                {String.format("LEVEL: %d/2", player.getLevel())}};
+        board.printOnBoard(playerStatistics, PLAYER_STATS_Y, PLAYER_STATS_X);
     }
 
 
