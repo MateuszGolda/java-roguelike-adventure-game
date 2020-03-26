@@ -12,23 +12,22 @@ public class Player extends Being {
         super.yPosition = yPosition;
         super.xPosition = xPosition;
         this.level = 0;
-        Icon icon = new Icon(level);
-        super.icon = icon;
+        super.icon = new Icon(level).getPlayerIcon();
     }
 
     public void levelUp() {
         super.strength += super.strength;
         super.defence += super.defence;
         super.hp += super.hp;
-        super.agility += (int) super.agility/4;
+        super.agility += (int) super.agility / 4;
         super.yPosition = 3;
         super.xPosition = 3;
-        Icon newIcon = new Icon(this.level++);
-        super.icon = newIcon;
+        Icon newIcon = new Icon(++level);
+        super.icon = newIcon.getPlayerIcon();
     }
 
     @Override
     public String[][] getIcon() {
-        return super.icon.getPlayerIcon();
+        return super.icon;
     }
 }

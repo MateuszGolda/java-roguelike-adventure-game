@@ -1,5 +1,8 @@
 package com.codecool.java.roguelikegame.beings;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class Being {
 
     protected int strength;
@@ -8,7 +11,8 @@ public abstract class Being {
     protected int agility;
     protected int yPosition;
     protected int xPosition;
-    protected Icon icon;
+    protected String[][] icon;
+    protected Set<int[]> points = new HashSet<>();
 
     public void addStrength(int strength) {
         this.strength += strength;

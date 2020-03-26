@@ -3,12 +3,12 @@ package com.codecool.java.roguelikegame.beings;
 public class Item extends Being {
 
     private ItemTypes type;
-    private Icon icon;
+    private String[][] icon;
 
     public Item(ItemTypes type, int yPosition, int xPosition) {
         this.type = type;
         Icon newIcon = new Icon(type);
-        this.icon = newIcon;
+        this.icon = newIcon.getItemIcon();
         switch (type) {
             case HP:
                 super.hp = 5;
@@ -46,6 +46,6 @@ public class Item extends Being {
     }
 
     public String[][] getIcon() {
-        return icon.getItemIcon();
+        return icon;
     }
 }

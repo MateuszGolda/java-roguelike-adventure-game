@@ -9,8 +9,7 @@ public class Monster extends Being {
         super.agility = agility;
         super.yPosition = yPosition;
         super.xPosition = xPosition;
-        Icon monsterIcon = new Icon();
-        super.icon = monsterIcon;
+        super.icon = new Icon().getMonsterIcon();
     }
 
     public boolean isAlive() {
@@ -23,6 +22,6 @@ public class Monster extends Being {
 
     @Override
     public String[][] getIcon() {
-        return super.icon.getMonsterIcon();
+        return super.icon;
     }
 }
