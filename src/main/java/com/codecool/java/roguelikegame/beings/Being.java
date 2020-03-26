@@ -94,4 +94,18 @@ public abstract class Being {
 
     public abstract String[][] getIcon();
 
+
+    /**
+     * @param yPosition the yPosition to set
+     */
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    /**
+     * @param xPosition the xPosition to set
+     */
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
 }
