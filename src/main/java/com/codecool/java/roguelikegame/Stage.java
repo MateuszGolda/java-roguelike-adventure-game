@@ -27,6 +27,7 @@ public abstract class Stage {
         isRunning = true;
         walkingChars.add(" ");
         walkingChars.add("≣");
+        walkingChars.add("\u2003");
         this.inventory = inventory;
         this.player = player;
     }
@@ -39,45 +40,37 @@ public abstract class Stage {
 
     protected void addToInventory(Item item) {
         inventory.addItem(item);
+        items.remove(item);
+        board.clearBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
     }
 
     public void gameLoop() throws FileNotFoundException {
-        setBoard();
-        board.printBoard();
-        board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
-
-        addEnemies();
-        addItems();
-        for (Being item : items) {
-            board.printOnBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
-        }
-        for (Being being : enemies) {
-            board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
-        }
+        initializeStage();
         int c;
+
         while (isRunning) {
             UI.moveCursor(board.getBoard().length, 0); // to avoid printing input on the board border
             c = Character.toLowerCase(CharacterInput.getNoEnterInput());
 
             switch (c) {
                 case 'a':
-                    moveIfNotConflict(0, -1);
+                    moveIfNotCollision(0, -1);
                     break;
 
                 case 'w':
-                    moveIfNotConflict(-1, 0);
+                    moveIfNotCollision(-1, 0);
                     break;
 
                 case 's':
-                    moveIfNotConflict(1, 0);
+                    moveIfNotCollision(1, 0);
                     break;
 
                 case 'd':
-                    moveIfNotConflict(0, 1);
+                    moveIfNotCollision(0, 1);
                     break;
 
                 case 'i':
-                    System.out.println("Inventory is not yet implemented");
+                    displayInventory();
                     break;
 
                 case 'q':
@@ -90,19 +83,24 @@ public abstract class Stage {
         }
     }
 
-    protected void moveIfNotConflict(int yChange, int xChange) {
-        if (isCollision(yChange, xChange)) {
+    protected void moveIfNotCollision(int yChange, int xChange) {
+        if (isCollisionWithBoard(yChange, xChange)) {
             printAndCleanOldPosition(yChange, xChange);
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
                     isRunning = false;
                 }
             }
+            for (Being item : items) {
+                if (isCollisionWithBeing(yChange, xChange, item)) {
+                    addToInventory((Item) item);
+                }
+            }
             player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
         }
     }
 
-    protected boolean isCollision(int yChange, int xChange) {
+    protected boolean isCollisionWithBoard(int yChange, int xChange) {
         for (int y = 0; y < player.getIcon().length; y++) {
             for (int x = 0; x < player.getIcon()[y].length; x++) {
                 if (!walkingChars.contains(
@@ -127,5 +125,28 @@ public abstract class Stage {
     protected void printAndCleanOldPosition(int yChange, int xChange) {
         board.clearBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
         board.printOnBoard(player.getIcon(), player.getyPosition() + yChange, player.getxPosition() + xChange);
+    }
+
+    protected void displayInventory() {
+        inventory.inventoryScreen(player);
+        printStage();
+    }
+
+    protected void initializeStage() {
+        setBoard();
+        addEnemies();
+        addItems();
+        printStage();
+    }
+
+    protected void printStage() {
+        board.printBoard();
+        board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
+        for (Being item : items) {
+            board.printOnBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
+        }
+        for (Being being : enemies) {
+            board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
+        }
     }
 }
