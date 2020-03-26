@@ -12,7 +12,18 @@ public abstract class Being {
     protected int yPosition;
     protected int xPosition;
     protected String[][] icon;
-    protected Set<int[]> points = new HashSet<>();
+
+    public Set<Point> getAllPoints() {
+        Set<Point> points = new HashSet<>();
+        for (int y = 0; y < icon.length; y++) {
+            for (int x = 0; x < icon[y].length; x++)
+                if (!icon[y][x].equals(" ")) {
+                    Point point = new Point(yPosition + y, xPosition + x);
+                    points.add(point);
+                }
+        }
+        return points;
+    }
 
     public void addStrength(int strength) {
         this.strength += strength;
