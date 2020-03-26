@@ -111,6 +111,8 @@ public abstract class Stage {
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
                     new Battle(player, inventory, enemy).makeBattle();
+                    enemies.remove(enemy);
+                    printStage();
                 }
             }
             for (Being item : items) {
@@ -130,7 +132,7 @@ public abstract class Stage {
             int yDistance = Math.abs(enemy.getyPosition() - player.getyPosition());
             int xDistance = Math.abs(enemy.getxPosition() - player.getxPosition());
             if (yDistance < 20 && yDistance < xDistance) {
-                yChange = (player.getyPosition() - enemy.getyPosition() < 0) ? -1 : 1;
+                yChange = (player.getyPosition() - enemy.getyPosition() - 1 < 0) ? -1 : 1;
             } else if (xDistance < 20) {
                 xChange = (player.getxPosition() - enemy.getxPosition() - enemy.getIcon()[0].length < 0) ? -1 : 1;
             }
