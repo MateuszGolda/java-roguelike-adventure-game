@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.codecool.java.roguelikegame.board.Battle;
 import com.codecool.java.roguelikegame.board.Board;
 import com.codecool.java.roguelikegame.board.Inventory;
 import com.codecool.java.roguelikegame.CharacterInput;
@@ -105,7 +106,7 @@ public abstract class Stage {
             printAndCleanOldPosition(yChange, xChange);
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
-                    isRunning = false;
+                    new Battle(player, inventory, enemy).makeBattle();
                 }
             }
             for (Being item : items) {
