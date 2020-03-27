@@ -24,7 +24,7 @@ public class Stage1 extends Stage {
 
     @Override
     protected void addEnemies() {
-        enemies.add(new Monster(2, 2, 20, 2, 7, 50));
+        enemies.add(new Monster(2, 2, 20, 2, 7, 50, 1));
     }
 
     @Override

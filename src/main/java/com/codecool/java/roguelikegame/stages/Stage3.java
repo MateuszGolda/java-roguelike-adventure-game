@@ -24,12 +24,12 @@ public class Stage3 extends Stage {
 
     @Override
     protected void addEnemies() {
-        enemies.add(new Monster(2, 2, 20, 2, 30, 5));
+        enemies.add(new Monster(4, 4, 30, 4, 32, 93, 2));
     }
 
     @Override
     protected void addItems() {
-        items.add(new Item(ItemTypes.HP, 22, 120));
+        items.add(new Item(ItemTypes.HP, 10, 50));
     }
 
     @Override
