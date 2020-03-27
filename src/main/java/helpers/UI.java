@@ -1,4 +1,4 @@
-package com.codecool.java.roguelikegame;
+package helpers;
 
 /**
  * UI

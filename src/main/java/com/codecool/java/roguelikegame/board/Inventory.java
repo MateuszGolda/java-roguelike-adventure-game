@@ -1,13 +1,14 @@
 package com.codecool.java.roguelikegame.board;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Icon;
 import com.codecool.java.roguelikegame.beings.Item;
-import com.codecool.java.roguelikegame.UI;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.IndexOutOfBoundsException;
+
+import helpers.UI;
 
 public class Inventory {
 
@@ -60,7 +61,7 @@ public class Inventory {
 
     private void printBoardWithPotions(Being player) {
         UI.clearScreen();
-        Board board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/inventory.txt");
+        Board board = new Board("src/main/resources/inventory.txt");
         board.printBoard();
         int x = PRINTING_START;
         for (Item item : itemsList) {

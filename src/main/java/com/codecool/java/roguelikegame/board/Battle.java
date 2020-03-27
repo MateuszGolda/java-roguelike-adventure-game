@@ -1,10 +1,11 @@
 package com.codecool.java.roguelikegame.board;
 
-import com.codecool.java.roguelikegame.beings.Being;
-import com.codecool.java.roguelikegame.UI;
+import java.util.Random;
 import java.util.Scanner;
 
-import java.util.Random;
+import com.codecool.java.roguelikegame.beings.Being;
+
+import helpers.UI;
 
 public class Battle {
 
@@ -32,7 +33,7 @@ public class Battle {
         this.player = player;
         this.inventory = inventory;
         this.monster = monster;
-        this.battleBoard = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/battle.txt");
+        this.battleBoard = new Board("src/main/resources/battle.txt");
     }
 
     public Being makeBattle() {
@@ -57,9 +58,9 @@ public class Battle {
 
     private void printBattleResult() {
         if (player.getHp() > 0) {
-            printResult("src/main/java/com/codecool/java/roguelikegame/board/boards/win.txt");
+            printResult("src/main/resources/win.txt");
         } else {
-            printResult("src/main/java/com/codecool/java/roguelikegame/board/boards/lose.txt");
+            printResult("src/main/resources/lose.txt");
         }
         try {
 			Thread.sleep(2000);

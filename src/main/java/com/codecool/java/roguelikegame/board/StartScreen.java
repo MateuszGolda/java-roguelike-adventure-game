@@ -2,11 +2,12 @@ package com.codecool.java.roguelikegame.board;
 
 import java.util.Scanner;
 
-import com.codecool.java.roguelikegame.CharacterInput;
-import com.codecool.java.roguelikegame.UI;
 import com.codecool.java.roguelikegame.beings.IconColor;
 import com.codecool.java.roguelikegame.beings.Item;
 import com.codecool.java.roguelikegame.beings.ItemTypes;
+
+import helpers.CharacterInput;
+import helpers.UI;
 
 public class StartScreen {
 
@@ -24,7 +25,7 @@ public class StartScreen {
     public int displayStartScreen() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/start.txt");
+            board = new Board("src/main/resources/start.txt");
             board.printBoard();
             printPotions();
             printOptions();
@@ -50,11 +51,11 @@ public class StartScreen {
                     case 'c':
                         if (makerIndex == 1) {
                             printBoardFrom(
-                                    "src/main/java/com/codecool/java/roguelikegame/board/boards/instruction.txt");
+                                    "src/main/resources/instruction.txt");
                             scanner.nextLine();
                             printedMenu = false;
                         } else if (makerIndex == 2) {
-                            printBoardFrom("src/main/java/com/codecool/java/roguelikegame/board/boards/credits.txt");
+                            printBoardFrom("src/main/resources/credits.txt");
                             scanner.nextLine();
                             printedMenu = false;
                         } else {

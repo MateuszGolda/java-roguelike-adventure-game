@@ -1,11 +1,10 @@
 package com.codecool.java.roguelikegame.board;
 
-import java.util.Scanner;
-
-import com.codecool.java.roguelikegame.UI;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import helpers.UI;
 
 /**
  * Board

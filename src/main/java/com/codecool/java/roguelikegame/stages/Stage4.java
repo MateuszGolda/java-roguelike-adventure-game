@@ -18,12 +18,12 @@ public class Stage4 extends Stage {
 
     @Override
     protected void setBoard() {
-        super.board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/map4.txt");
+        super.board = new Board("src/main/resources/map4.txt");
     }
 
     @Override
     protected void addEnemies() {
-        enemies.add(new Monster(7, 7, 50, 7, 10, 70, 3));
+        enemies.add(new Monster(5, 5, 50, 5, 10, 70, 3));
     }
 
     @Override

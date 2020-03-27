@@ -4,14 +4,15 @@ import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.codecool.java.roguelikegame.board.Battle;
-import com.codecool.java.roguelikegame.board.Board;
-import com.codecool.java.roguelikegame.board.Inventory;
-import com.codecool.java.roguelikegame.CharacterInput;
-import com.codecool.java.roguelikegame.UI;
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Item;
 import com.codecool.java.roguelikegame.beings.Point;
+import com.codecool.java.roguelikegame.board.Battle;
+import com.codecool.java.roguelikegame.board.Board;
+import com.codecool.java.roguelikegame.board.Inventory;
+
+import helpers.CharacterInput;
+import helpers.UI;
 
 /**
  * Stage1
@@ -42,6 +43,7 @@ public abstract class Stage {
         walkingChars.add("\u2003");
         this.inventory = inventory;
         this.player = player;
+        initializeStage();
     }
 
     protected abstract void setBoard();
@@ -61,7 +63,7 @@ public abstract class Stage {
     }
 
     public int gameLoop() throws FileNotFoundException {
-        initializeStage();
+        printStage();
         int c;
         isRunning = true;
         while (isRunning) {
@@ -205,7 +207,6 @@ public abstract class Stage {
         addItems();
         addDoorToNextStage();
         addPlayerNextStagePosition();
-        printStage();
     }
 
     protected void printStage() {

@@ -19,7 +19,7 @@ public class Stage3 extends Stage {
 
     @Override
     protected void setBoard() {
-        super.board = new Board("src/main/java/com/codecool/java/roguelikegame/board/boards/map3.txt");
+        super.board = new Board("src/main/resources/map3.txt");
     }
 
     @Override
