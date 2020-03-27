@@ -12,6 +12,16 @@ public class Monster extends Being {
         super.icon = new Icon().getMonsterIcon(monsterLevel);
     }
 
+    public Monster(int strength, int defence, int hp, int agility, int yPosition, int xPosition, String name) {
+        super.strength = strength;
+        super.defence = defence;
+        super.hp = hp;
+        super.agility = agility;
+        super.yPosition = yPosition;
+        super.xPosition = xPosition;
+        super.icon = new Icon().getMegaMonsterIcon();
+    }
+
     public boolean isAlive() {
         if (super.hp > 0) {
             return true;
