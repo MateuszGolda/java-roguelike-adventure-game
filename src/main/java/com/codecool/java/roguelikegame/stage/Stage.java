@@ -1,4 +1,4 @@
-package com.codecool.java.roguelikegame.stages;
+package com.codecool.java.roguelikegame.stage;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.codecool.java.roguelikegame.beings.Being;
 import com.codecool.java.roguelikegame.beings.Item;
+import com.codecool.java.roguelikegame.beings.Monster;
 import com.codecool.java.roguelikegame.beings.Point;
 import com.codecool.java.roguelikegame.board.Battle;
 import com.codecool.java.roguelikegame.board.Board;
@@ -17,25 +18,25 @@ import helpers.UI;
 /**
  * Stage1
  */
-public abstract class Stage {
+public class Stage {
 
-    protected Board board;
-    protected Being player;
-    protected Inventory inventory;
-    protected Set<Being> enemies = new HashSet<>();
-    protected Set<Item> items = new HashSet<>();
-    protected Set<String> walkingChars = new HashSet<>();
-    protected boolean isRunning;
-    protected Point nextStageDoor = new Point(0, 0);
-    protected Point secondStageDoor = new Point(0, 0);
-    protected Point previousStageDoor = new Point(0, 0);
-    protected int stageToGo = 0;
-    protected int playerNextStageY;
-    protected int playerNextStageX;
-    protected int playerSecondStageY;
-    protected int playerSecondStageX;
-    protected int playerPreviousStageY;
-    protected int playerPreviousStageX;
+    private Board board;
+    private Being player;
+    private Inventory inventory;
+    private Set<Being> enemies = new HashSet<>();
+    private Set<Item> items = new HashSet<>();
+    private Set<String> walkingChars = new HashSet<>();
+    private boolean isRunning;
+    private Point nextStageDoor = new Point(0, 0);
+    private Point secondStageDoor = new Point(0, 0);
+    private Point previousStageDoor = new Point(0, 0);
+    private int stageToGo = 0;
+    private int playerNextStageY;
+    private int playerNextStageX;
+    private int playerSecondStageY;
+    private int playerSecondStageX;
+    private int playerPreviousStageY;
+    private int playerPreviousStageX;
 
     public Stage(Being player, Inventory inventory) {
         walkingChars.add(" ");
@@ -43,20 +44,21 @@ public abstract class Stage {
         walkingChars.add("\u2003");
         this.inventory = inventory;
         this.player = player;
-        initializeStage();
     }
 
-    protected abstract void setBoard();
+    public void setBoard(String mapTxtFile) {
+        this.board = new Board(mapTxtFile);
+    }
 
-    protected abstract void addEnemies();
+    public void addEnemy(Monster enemy) {
+        this.enemies.add(enemy);
+    }
 
-    protected abstract void addDoorToNextStage();
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
 
-    protected abstract void addPlayerNextStagePosition();
-
-    protected abstract void addItems();
-
-    protected void addToInventory(Item item) {
+    private void addToInventory(Item item) {
         inventory.addItem(item);
         items.remove(item);
         board.clearBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
@@ -107,7 +109,7 @@ public abstract class Stage {
         return stageToGo;
     }
 
-    protected void movePlayerIfNotCollision(int yChange, int xChange) {
+    private void movePlayerIfNotCollision(int yChange, int xChange) {
         if (!isCollisionWithBoard(yChange, xChange, player)) {
             printAndCleanOldPosition(yChange, xChange, player);
             for (Being enemy : enemies) {
@@ -127,7 +129,7 @@ public abstract class Stage {
         }
     }
 
-    protected void moveEnemies() {
+    private void moveEnemies() {
         for (Being enemy : enemies) {
             int yChange = 0;
             int xChange = 0;
@@ -145,7 +147,7 @@ public abstract class Stage {
         }
     }
 
-    protected void checkIfDoorToNextStage(int yChange, int xChange) {
+    private void checkIfDoorToNextStage(int yChange, int xChange) {
         for (Point point : player.getAllPoints()) {
             if (point.equals(nextStageDoor)) {
                 isRunning = false;
@@ -171,7 +173,7 @@ public abstract class Stage {
         }
     }
 
-    protected boolean isCollisionWithBoard(int yChange, int xChange, Being being) {
+    private boolean isCollisionWithBoard(int yChange, int xChange, Being being) {
         for (int y = 0; y < being.getIcon().length; y++) {
             for (int x = 0; x < being.getIcon()[y].length; x++) {
                 if (!walkingChars.contains(
@@ -183,7 +185,7 @@ public abstract class Stage {
         return false;
     }
 
-    protected boolean isCollisionWithBeing(int yChange, int xChange, Being object) {
+    private boolean isCollisionWithBeing(int yChange, int xChange, Being object) {
         if (player.getAllPoints().retainAll(object.getAllPoints())) {
             return false;
         } else {
@@ -191,25 +193,17 @@ public abstract class Stage {
         }
     }
 
-    protected void printAndCleanOldPosition(int yChange, int xChange, Being being) {
+    private void printAndCleanOldPosition(int yChange, int xChange, Being being) {
         board.clearBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
         board.printOnBoard(being.getIcon(), being.getyPosition() + yChange, being.getxPosition() + xChange);
     }
 
-    protected void displayInventory() {
+    private void displayInventory() {
         inventory.inventoryScreen(player);
         printStage();
     }
 
-    protected void initializeStage() {
-        setBoard();
-        addEnemies();
-        addItems();
-        addDoorToNextStage();
-        addPlayerNextStagePosition();
-    }
-
-    protected void printStage() {
+    private void printStage() {
         board.printBoard();
         board.printOnBoard(player.getIcon(), player.getyPosition(), player.getxPosition());
         for (Being item : items) {
@@ -218,5 +212,41 @@ public abstract class Stage {
         for (Being being : enemies) {
             board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
         }
+    }
+
+    public void setPlayerNextStageY(int playerNextStageY) {
+        this.playerNextStageY = playerNextStageY;
+    }
+
+    public void setPlayerNextStageX(int playerNextStageX) {
+        this.playerNextStageX = playerNextStageX;
+    }
+
+    public void setPlayerSecondStageY(int playerSecondStageY) {
+        this.playerSecondStageY = playerSecondStageY;
+    }
+
+    public void setPlayerSecondStageX(int playerSecondStageX) {
+        this.playerSecondStageX = playerSecondStageX;
+    }
+
+    public void setPlayerPreviousStageY(int playerPreviousStageY) {
+        this.playerPreviousStageY = playerPreviousStageY;
+    }
+
+    public void setPlayerPreviousStageX(int playerPreviousStageX) {
+        this.playerPreviousStageX = playerPreviousStageX;
+    }
+
+    public void setNextStageDoor(Point nextStageDoor) {
+        this.nextStageDoor = nextStageDoor;
+    }
+
+    public void setSecondStageDoor(Point secondStageDoor) {
+        this.secondStageDoor = secondStageDoor;
+    }
+
+    public void setPreviousStageDoor(Point previousStageDoor) {
+        this.previousStageDoor = previousStageDoor;
     }
 }
