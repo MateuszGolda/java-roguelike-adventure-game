@@ -116,12 +116,27 @@ public class Stage {
         for (Being enemy : enemies) {
             int yChange = 0;
             int xChange = 0;
-            int yDistance = Math.abs(enemy.getyPosition() - player.getyPosition());
-            int xDistance = Math.abs(enemy.getxPosition() - player.getxPosition());
-            if (yDistance < 20 && yDistance < xDistance) {
-                yChange = (player.getyPosition() - enemy.getyPosition() - 1 < 0) ? -1 : 1;
-            } else if (xDistance < 20) {
-                xChange = (player.getxPosition() - enemy.getxPosition() - enemy.getIcon()[0].length < 0) ? -1 : 1;
+            int yPlayer = player.getyPosition();
+            int yPlayerLatter = player.getyPosition() + player.getIcon().length;
+            int xPlayer = player.getxPosition();
+            int xPlayerLatter = player.getxPosition() + player.getIcon()[0].length;
+            int yMonster = enemy.getyPosition();
+            int yMonsterLatter = enemy.getyPosition() + enemy.getIcon().length;
+            int xMonster = enemy.getxPosition();
+            int xMonsterLatter = enemy.getxPosition() + enemy.getIcon()[0].length;
+
+            int yDistance = Math.min(Math.abs(yMonster - yPlayer), Math.abs(yMonsterLatter - yPlayer));
+            yDistance = Math.min(Math.min(Math.abs(yMonster - yPlayerLatter), Math.abs(yMonsterLatter - yPlayerLatter)),
+                    yDistance);
+
+            int xDistance = Math.min(Math.abs(xMonster - xPlayer), Math.abs(xMonsterLatter - xPlayer));
+            xDistance = Math.min(Math.min(Math.abs(xMonster - xPlayerLatter), Math.abs(xMonsterLatter - xPlayerLatter)),
+                    xDistance);
+
+            if (yDistance < 20 && xDistance < 20 && yDistance + 1 > xDistance) {
+                yChange = (player.getyPosition() - enemy.getyPosition() - enemy.getIcon().length / 2 < 0) ? -1 : 1;
+            } else if (yDistance < 20 && xDistance < 20) {
+                xChange = (player.getxPosition() - enemy.getxPosition() - enemy.getIcon()[0].length / 2 < 0) ? -1 : 1;
             }
             if (!isCollisionWithBoard(yChange, xChange, enemy)) {
                 printAndCleanOldPosition(yChange, xChange, enemy);
