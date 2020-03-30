@@ -1,6 +1,7 @@
 package com.codecool.java.roguelikegame.stage;
 
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,24 +45,6 @@ public class Stage {
         walkingChars.add("\u2003");
         this.inventory = inventory;
         this.player = player;
-    }
-
-    public void setBoard(String mapTxtFile) {
-        this.board = new Board(mapTxtFile);
-    }
-
-    public void addEnemy(Monster enemy) {
-        this.enemies.add(enemy);
-    }
-
-    public void addItem(Item item) {
-        this.items.add(item);
-    }
-
-    private void addToInventory(Item item) {
-        inventory.addItem(item);
-        items.remove(item);
-        board.clearBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
     }
 
     public int gameLoop() throws FileNotFoundException {
@@ -186,7 +169,7 @@ public class Stage {
     }
 
     private boolean isCollisionWithBeing(int yChange, int xChange, Being object) {
-        if (player.getAllPoints().retainAll(object.getAllPoints())) {
+        if (Collections.disjoint(player.getAllPoints(), object.getAllPoints())) {
             return false;
         } else {
             return true;
@@ -212,6 +195,24 @@ public class Stage {
         for (Being being : enemies) {
             board.printOnBoard(being.getIcon(), being.getyPosition(), being.getxPosition());
         }
+    }
+
+    private void addToInventory(Item item) {
+        inventory.addItem(item);
+        items.remove(item);
+        board.clearBoard(item.getIcon(), item.getyPosition(), item.getxPosition());
+    }
+
+    public void setBoard(String mapTxtFile) {
+        this.board = new Board(mapTxtFile);
+    }
+
+    public void addEnemy(Monster enemy) {
+        this.enemies.add(enemy);
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
     }
 
     public void setPlayerNextStageY(int playerNextStageY) {
