@@ -42,7 +42,6 @@ public class Stage {
     public Stage(Being player, Inventory inventory) {
         walkingChars.add(" ");
         walkingChars.add("≣");
-        walkingChars.add("\u2003");
         this.inventory = inventory;
         this.player = player;
     }
@@ -97,9 +96,7 @@ public class Stage {
             printAndCleanOldPosition(yChange, xChange, player);
             for (Being enemy : enemies) {
                 if (isCollisionWithBeing(yChange, xChange, enemy)) {
-                    new Battle(player, inventory, enemy).makeBattle();
-                    enemies.remove(enemy);
-                    printStage();
+                    battle(yChange, xChange, enemy);
                 }
             }
             for (Being item : items) {
@@ -110,6 +107,21 @@ public class Stage {
             player.move(player.getyPosition() + yChange, player.getxPosition() + xChange);
             checkIfDoorToNextStage(yChange, xChange);
         }
+    }
+
+    private void battle(int yChange, int xChange, Being enemy) {
+        new Battle(player, inventory, enemy).makeBattle();
+        enemies.remove(enemy);
+        if (player.getHp() < 1) {
+            stageToGo = 4;
+            isRunning = false;
+        }
+        if (nextStageDoor.equals(new Point(0, 0)) && secondStageDoor.equals(new Point(0, 0))
+                && previousStageDoor.equals(new Point(0, 0)) && enemies.isEmpty()) {
+            stageToGo = 4;
+            isRunning = false;
+        }
+        printStage();
     }
 
     private void moveEnemies() {
