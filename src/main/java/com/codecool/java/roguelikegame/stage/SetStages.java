@@ -23,9 +23,9 @@ public class SetStages {
         stages[0].addEnemy(new Monster(2, 2, 20, 2, 7, 50, 1));
         stages[0].addItem(new Item(ItemTypes.HP, 8, 30));
         stages[0].setNextStageDoor(new Point(13, 120));
-        stages[0].setSecondStageDoor(new Point(28, 31));
+        stages[0].setSecondStageDoor(new Point(29, 31));
         stages[0].setPlayerNextStageY(32);
-        stages[0].setPlayerNextStageX(143);
+        stages[0].setPlayerNextStageX(140);
         stages[0].setPlayerSecondStageY(30);
         stages[0].setPlayerSecondStageX(3);
 
@@ -39,7 +39,7 @@ public class SetStages {
 
         stages[2] = new Stage(player, inventory);
         stages[2].setBoard("src/main/resources/map3.txt");
-        stages[2].addEnemy(new Monster(4, 4, 30, 4, 32, 93, 2));
+        stages[2].addEnemy(new Monster(5, 5, 30, 5, 32, 93, 2));
         stages[2].addItem(new Item(ItemTypes.HP, 10, 50));
         stages[2].setNextStageDoor(new Point(31, 95));
         stages[2].setPlayerNextStageY(22);
@@ -47,9 +47,8 @@ public class SetStages {
 
         stages[3] = new Stage(player, inventory);
         stages[3].setBoard("src/main/resources/map4.txt");
-        stages[3].addEnemy(new Monster(5, 5, 50, 5, 10, 70, 3));
+        stages[3].addEnemy(new Monster(10, 10, 70, 10, 10, 70, 3));
         stages[3].addItem(new Item(ItemTypes.HP, 22, 12));
-        stages[3].setNextStageDoor(new Point(31, 95));
 
         return stages;
     }
