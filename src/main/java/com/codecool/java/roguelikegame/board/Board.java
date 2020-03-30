@@ -21,8 +21,9 @@ public class Board {
     }
 
     public void getBoardFromFile(String fileName) throws FileNotFoundException {
-
-        String[][] board = new String[40][150];
+        final int boardHeight = 40;
+        final int boardWidth = 149;
+        String[][] board = new String[boardHeight][boardWidth];
         Scanner scan = new Scanner(new File(fileName));
         for (int i = 0; i < board.length; i++) {
             board[i] = scan.nextLine().split("");
