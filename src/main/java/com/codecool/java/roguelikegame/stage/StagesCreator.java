@@ -9,11 +9,11 @@ import com.codecool.java.roguelikegame.board.Inventory;
 import com.codecool.java.roguelikegame.beings.Item;
 
 /**
- * SetStages
+ * StagesCreator
  */
-public class SetStages {
+public class StagesCreator {
 
-    public static Stage[] getStages() {
+    public Stage[] configureStages() {
         Inventory inventory = new Inventory();
         Being player = new Player(5, 5); // set player starting position
 
