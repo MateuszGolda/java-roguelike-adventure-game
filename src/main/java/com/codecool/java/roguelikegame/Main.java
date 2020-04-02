@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.codecool.java.roguelikegame.board.StartScreen;
-import com.codecool.java.roguelikegame.stage.SetStages;
+import com.codecool.java.roguelikegame.stage.StagesCreator;
 import com.codecool.java.roguelikegame.stage.Stage;
 
 /**
@@ -28,7 +28,8 @@ public class Main {
     }
 
     public static void startGame() throws FileNotFoundException {
-        Stage[] stages = SetStages.getStages();
+        StagesCreator sc = new StagesCreator();
+        Stage[] stages = sc.configureStages();
         int currentStage = 0;
 
         while (currentStage < stages.length) {
